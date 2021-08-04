@@ -1,0 +1,18 @@
+{
+    "name": "event-test-connector", 
+    "config": {
+        "connector.class": "io.debezium.connector.mysql.MySqlConnector", 
+        "database.hostname": "db", 
+        "database.port": "3306", 
+        "database.user": "db-user", 
+        "database.password": "P@swr11d",
+        "database.allowPublicKeyRetrieval" : true, 
+        "database.server.id": "223001", 
+        "database.server.name": "eventlog", 
+        "database.include.list": "event-test",
+        "table.include.list" : "event-test.events",
+        "database.history.kafka.bootstrap.servers": "kafka:9092", 
+        "database.history.kafka.topic": "dbhistory.eventlog", 
+        "include.schema.changes": "true" 
+    }
+}
