@@ -5,5 +5,5 @@ import java.math.BigDecimal;
 /**
  * @author <a href="kuldeepyadav7291@gmail.com">Kuldeep</a>
  */
-public record ItemDto(String sku,String name,BigDecimal price,Integer initialQty) {}
-
+public record ItemPayload(Integer id, String sku,String name,Integer qty,BigDecimal price) {
+}

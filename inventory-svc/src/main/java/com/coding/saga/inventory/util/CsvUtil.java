@@ -1,5 +1,6 @@
-package com.coding.saga.inventory;
+package com.coding.saga.inventory.util;
 
+import com.coding.saga.inventory.ItemDto;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.csv.CSVFormat;
@@ -20,7 +21,7 @@ import static lombok.AccessLevel.PRIVATE;
  */
 @Slf4j
 @NoArgsConstructor(access = PRIVATE)
-class CsvUtil {
+public class CsvUtil {
     public static List<ItemDto> readCsv(InputStream is) {
         try (CSVParser parser = CSVParser.parse(is, StandardCharsets.UTF_8, CSVFormat.DEFAULT)) {
             final List<CSVRecord> records = parser.getRecords();

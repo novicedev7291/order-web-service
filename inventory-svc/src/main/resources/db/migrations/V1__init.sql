@@ -17,3 +17,13 @@ create table if not exists `item_inventory` (
     key `FK_item_id` (`item_id`),
     constraint `FK_item_id` foreign key (`item_id`) references `items` (`id`)
 );
+
+create table if not exists `events` (
+    id varchar(36) primary key,
+    aggregate_id varchar(20) not null,
+    aggregate_type varchar(20) not null,
+    type varchar(30) not null,
+    payload text not null,
+    occurred_on datetime not null,
+    version int not null
+);
