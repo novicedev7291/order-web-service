@@ -9,10 +9,17 @@
     "database.allowPublicKeyRetrieval" : true,
     "database.server.id": "223001",
     "database.server.name": "inventory_log",
-    "database.include.list": "event-test",
-    "table.include.list" : "event-test.events",
+    "database.include.list": "inventory-svc",
+    "table.include.list" : "inventory-svc.events",
     "database.history.kafka.bootstrap.servers": "kafka:9092",
-    "database.history.kafka.topic": "dbhistory.eventlog",
-    "include.schema.changes": "true"
+    "database.history.kafka.topic": "dbhistory.inventory_log",
+    "include.schema.changes": "true",
+    "transforms": "outbox",
+    "transforms.outbox.type": "io.debezium.transforms.outbox.EventRouter",
+    "transforms.outbox.route.by.field": "aggregate_type",
+    "transforms.outbox.table.field.event.key": "aggregate_id",
+    "transforms.outbox.table.field.event.payload.id": "aggregate_id",
+    "transforms.outbox.route.topic.replacement": "${routedByValue}.events",
+    "transforms.outbox.table.fields.additional.placement": "type:header:type"
   }
 }

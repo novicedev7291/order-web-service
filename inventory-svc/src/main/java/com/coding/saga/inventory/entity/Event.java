@@ -2,10 +2,13 @@ package com.coding.saga.inventory.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Version;
 import java.time.LocalDateTime;
 
 import static lombok.AccessLevel.PROTECTED;
@@ -17,7 +20,11 @@ import static lombok.AccessLevel.PROTECTED;
 @Setter(PROTECTED)
 @Entity
 @Table(name = "events")
-public class Event extends AbstractEntity<String> {
+public class Event {
+    @Id
+    @Column(updatable = false, nullable = false)
+    private String id;
+
     @Column(name = "aggregate_id")
     private String aggregateId;
 
@@ -26,8 +33,12 @@ public class Event extends AbstractEntity<String> {
 
     private String type;
 
+    @Type(type = "text")
     private String payload;
 
     @Column(name = "occurred_on")
     private LocalDateTime occurredOn;
+
+    @Version
+    private Integer version;
 }

@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Version;
+import java.io.Serializable;
 
 /**
  * @author <a href="kuldeepyadav7291@gmail.com">Kuldeep</a>
@@ -15,11 +16,11 @@ import javax.persistence.Version;
 @Getter
 @Setter
 @MappedSuperclass
-public abstract class AbstractEntity<T> {
+public abstract class AbstractEntity<T extends Serializable> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private T id;
+    protected T id;
 
     @Version
-    private Integer version;
+    protected Integer version;
 }

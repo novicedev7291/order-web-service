@@ -31,7 +31,8 @@ public class ItemService {
 
         items = repo.saveAll(items);
 
-        eventRepo.saveAll(items.stream().map(this::createAddEvent).toList());
+        List<Event> addEvents = items.stream().map(this::createAddEvent).toList();
+        eventRepo.saveAll(addEvents);
     }
 
     private Item create(ItemDto data) {
@@ -44,7 +45,7 @@ public class ItemService {
         ItemPayload payload = transform(item);
         return EventFactory.create(
                 item.getId().toString(),
-                "Item",
+                "inventory",
                 EventType.ITEM_ADDED,
                 payload
         );

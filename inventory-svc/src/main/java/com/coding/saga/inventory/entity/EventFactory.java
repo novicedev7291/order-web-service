@@ -5,6 +5,7 @@ import com.coding.saga.inventory.util.JsonUtil;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 /**
@@ -19,6 +20,7 @@ public class EventFactory {
         event.setAggregateType(aggregateType);
         event.setType(type.name());
         event.setPayload(JsonUtil.jsonString(payload));
+        event.setOccurredOn(LocalDateTime.now());
         return event;
     }
 }
