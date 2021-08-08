@@ -8,7 +8,7 @@ logging:
     org.springframework.kafka.config: trace
 ---
 spring:
-  profiles: local
+  config.activate.on-profile: local
   datasource:
     url: jdbc:mysql://localhost:3316/web-svc?serverTimeZone=UTC
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -29,7 +29,7 @@ spring:
     schema-registry-url: http://localhost:8089
 ---
 spring:
-  profiles: test
+  config.activate.on-profile: test
   datasource:
     url: jdbc:h2:mem:test;DB_CLOSE_DELAY=-1
     driver-class-name: org.h2.Driver
