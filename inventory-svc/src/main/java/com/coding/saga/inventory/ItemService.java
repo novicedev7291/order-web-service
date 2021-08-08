@@ -1,5 +1,6 @@
 package com.coding.saga.inventory;
 
+import com.coding.saga.domain.events.InventoryItem;
 import com.coding.saga.inventory.entity.Event;
 import com.coding.saga.inventory.entity.EventFactory;
 import com.coding.saga.inventory.entity.Item;
@@ -42,7 +43,7 @@ public class ItemService {
     }
 
     private Event createAddEvent(Item item) {
-        ItemPayload payload = transform(item);
+        InventoryItem payload = transform(item);
         return EventFactory.create(
                 item.getId().toString(),
                 "inventory",
@@ -51,8 +52,8 @@ public class ItemService {
         );
     }
 
-    private ItemPayload transform(Item item) {
-        return new ItemPayload(
+    private InventoryItem transform(Item item) {
+        return new InventoryItem(
                 item.getId(),
                 item.getSku(),
                 item.getName(),
