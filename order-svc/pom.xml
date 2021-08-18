@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.coding.saga</groupId>
+        <artifactId>jpa-starter</artifactId>
+        <version>${revision}</version>
+        <relativePath>../boot-starters/jpa-starter</relativePath> <!-- lookup parent from repository -->
+    </parent>
+
+    <artifactId>order-svc</artifactId>
+    <version>${revision}</version>
+    <name>order-svc</name>
+    <description>Order service to process the order</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.coding.saga</groupId>
+            <artifactId>domain-events</artifactId>
+            <version>${revision}</version>
+        </dependency>
+    </dependencies>
+
+</project>
