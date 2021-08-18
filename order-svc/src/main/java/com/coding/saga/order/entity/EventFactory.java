@@ -1,7 +1,7 @@
 package com.coding.saga.order.entity;
 
-import com.coding.saga.inventory.EventType;
-import com.coding.saga.inventory.util.JsonUtil;
+import com.coding.saga.order.EventType;
+import com.coding.saga.order.util.JsonUtil;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 

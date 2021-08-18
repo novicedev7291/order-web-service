@@ -1,4 +1,4 @@
-package com.coding.saga.domain.events;
+package com.coding.saga.domain.model;
 
 import java.math.BigDecimal;
 

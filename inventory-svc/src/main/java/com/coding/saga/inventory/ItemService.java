@@ -1,6 +1,6 @@
 package com.coding.saga.inventory;
 
-import com.coding.saga.domain.events.InventoryItem;
+import com.coding.saga.domain.model.InventoryItem;
 import com.coding.saga.inventory.entity.Event;
 import com.coding.saga.inventory.entity.EventFactory;
 import com.coding.saga.inventory.entity.Item;
