@@ -1,0 +1,36 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+start
+
+:Proceed with items in cart;
+
+if (items available?) then (yes)
+    :Reserve items inventory;
+    if (items reserved?) then (yes)
+        :Redirect customer to make payment;
+        :Customer make payment;
+        if (payment successful?) then (yes)
+            :Place the order;
+            if (order successful?) then (yes)
+                :Clear the cart;
+                :Notify the customer order placed;
+                :Redirect customer to the recent orders;
+                stop
+            else (no)
+                :Notify customer to try again;
+                stop
+            endif
+        else (no)
+            :Free items inventory reserved;
+            :Notify customer about payment issue;
+            stop
+        endif
+    else (no)
+        stop
+    endif
+else (no)
+    stop
+
+
+@enduml
