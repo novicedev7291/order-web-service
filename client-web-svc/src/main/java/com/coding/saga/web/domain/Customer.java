@@ -11,7 +11,7 @@ public class Customer {
     private final CustomerId id;
     private Name name;
     private final String email;
-    private List<Address> addresses = new ArrayList<>();
+    private final List<Address> addresses = new ArrayList<>();
 
     public Customer(CustomerId id, Name name, String email) {
         requireNonNull(email);
