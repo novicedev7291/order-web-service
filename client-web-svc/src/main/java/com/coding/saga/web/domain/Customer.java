@@ -12,6 +12,7 @@ public class Customer {
     private Name name;
     private final String email;
     private final List<Address> addresses = new ArrayList<>();
+    private final Cart cart = new Cart();
 
     public Customer(CustomerId id, Name name, String email) {
         requireNonNull(email);
@@ -69,5 +70,9 @@ public class Customer {
         int result = id.hashCode();
         result = 31 * result + email.hashCode();
         return result;
+    }
+
+    public Cart cart() {
+        return cart;
     }
 }
