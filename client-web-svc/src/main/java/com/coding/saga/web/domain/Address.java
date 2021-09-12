@@ -41,6 +41,22 @@ public class Address {
         );
     }
 
+    void markAsBilling() {
+        this.isBilling = true;
+    }
+
+    void markAsShipping() {
+        this.isShipping = true;
+    }
+
+    void removeAsBilling() {
+        this.isBilling = false;
+    }
+
+    void removeAsShipping() {
+        this.isShipping = false;
+    }
+
     public boolean isBilling() {
         return isBilling;
     }

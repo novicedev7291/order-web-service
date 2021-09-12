@@ -3,6 +3,7 @@ package com.coding.saga.web.domain;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import static java.util.Objects.requireNonNull;
@@ -38,12 +39,12 @@ public class Customer {
     }
 
     public void addAddress(Address address) {
-        if(addresses.contains(address)) throw new DuplicateAddressException();
+        if (addresses.contains(address)) throw new DuplicateAddressException();
         addresses.add(address.copy());
     }
 
     public void removeAddress(Address address) {
-        if(addresses.contains(address)) {
+        if (addresses.contains(address)) {
             addresses.remove(address);
             return;
         }
@@ -74,5 +75,31 @@ public class Customer {
 
     public Cart cart() {
         return cart;
+    }
+
+    public void defineBilling(Address address) {
+        Address matchingAddress = addresses.stream()
+                                           .filter(existing -> existing.equals(address))
+                                           .findAny()
+                                           .orElseThrow(AddressNotFoundException::new);
+        Optional<Address> currentBillingAddress = addresses.stream()
+                                                           .filter(Address::isBilling)
+                                                           .findAny();
+
+        currentBillingAddress.ifPresent(Address::removeAsBilling);
+        matchingAddress.markAsBilling();
+    }
+
+    void defineShipping(Address address) {
+        Address matchingAddress = addresses.stream()
+                                    .filter(existing -> existing.equals(address))
+                                    .findAny()
+                                    .orElseThrow(AddressNotFoundException::new);
+
+        Optional<Address> currentShippingAddress = addresses.stream()
+                                                            .filter(Address::isShipping)
+                                                            .findAny();
+        currentShippingAddress.ifPresent(Address::removeAsShipping);
+        matchingAddress.markAsShipping();
     }
 }

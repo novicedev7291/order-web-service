@@ -42,4 +42,21 @@ class CustomerService {
 
         customer.cart().removeItem(itemToBeRemoved);
     }
+
+    void defineBillingAddress(CustomerId customerId, Address address) {
+        Customer customer = repository.findById(customerId)
+                                      .orElseThrow(CustomerNotFoundException::new);
+        customer.defineBilling(address);
+    }
+
+    Customer findById(CustomerId customerId) {
+        return repository.findById(customerId)
+                .orElseThrow(CustomerNotFoundException::new);
+    }
+
+    void defineShippingAddress(CustomerId customerId, Address address) {
+        Customer customer = repository.findById(customerId)
+                                      .orElseThrow(CustomerNotFoundException::new);
+        customer.defineShipping(address);
+    }
 }
