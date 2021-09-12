@@ -120,7 +120,7 @@ class CustomerConstructionTest {
         PhoneNumber phoneNumber = new PhoneNumber(faker.address().countryCode(), faker.phoneNumber().phoneNumber());
         Address addressToRemove = Address.newAddress(street12,null,country1,state1,postalCode1,phoneNumber);
 
-        assertThrows(NotFoundException.class, () -> customer.removeAddress(addressToRemove));
+        assertThrows(AddressNotFoundException.class, () -> customer.removeAddress(addressToRemove));
     }
 
     @Test

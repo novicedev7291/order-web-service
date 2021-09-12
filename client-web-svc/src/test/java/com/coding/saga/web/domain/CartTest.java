@@ -2,9 +2,6 @@ package com.coding.saga.web.domain;
 
 import org.junit.jupiter.api.Test;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.Comparator;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -21,12 +18,12 @@ class CartTest {
                 .isEmpty();
 
         assertThat(cart.subTotal())
-                .usingComparator(twoDecimalComparator())
+                .usingComparator(Money.twoDecimalComparator())
                 .isEqualTo(Money.ZERO);
         assertThat(cart.tax())
                 .isEqualTo(Money.ZERO);
         assertThat(cart.total())
-                .usingComparator(twoDecimalComparator())
+                .usingComparator(Money.twoDecimalComparator())
                 .isEqualTo(Money.ZERO);
     }
 
@@ -44,12 +41,12 @@ class CartTest {
 
         Money subTotal = Money.of(4734.99 * 7);
         assertThat(cart.subTotal())
-                .usingComparator(twoDecimalComparator())
+                .usingComparator(Money.twoDecimalComparator())
                 .isEqualTo(subTotal);
         assertThat(cart.tax())
                 .isEqualTo(Money.ZERO);
         assertThat(cart.total())
-                .usingComparator(twoDecimalComparator())
+                .usingComparator(Money.twoDecimalComparator())
                 .isEqualTo(subTotal.add(Money.ZERO));
     }
 
@@ -69,7 +66,7 @@ class CartTest {
 
         Money subTotal = Money.of(1234.99 * 6);
         assertThat(cart.subTotal())
-                .usingComparator(twoDecimalComparator())
+                .usingComparator(Money.twoDecimalComparator())
                 .isEqualTo(subTotal);
         assertThat(cart.tax())
                 .isEqualTo(Money.ZERO);
@@ -96,22 +93,41 @@ class CartTest {
 
         Money subTotal = Money.of(5289.999 * 2);
         assertThat(cart.subTotal())
-                .usingComparator(twoDecimalComparator())
+                .usingComparator(Money.twoDecimalComparator())
                 .isEqualTo(subTotal);
         assertThat(cart.tax())
                 .isEqualTo(Money.ZERO);
         assertThat(cart.total())
-                .usingComparator(twoDecimalComparator())
+                .usingComparator(Money.twoDecimalComparator())
                 .isEqualTo(subTotal.add(Money.ZERO));
     }
 
-    private Comparator<Money> twoDecimalComparator() {
-        return (first, second) -> {
-            int scale = 2;
-            BigDecimal firstValue = first.value().setScale(scale, RoundingMode.HALF_EVEN);
-            BigDecimal secondValue = second.value().setScale(scale, RoundingMode.HALF_EVEN);
-            return firstValue.compareTo(secondValue);
-        };
+    @Test
+    void updateQuantityInCart() {
+        Item item1 = createItem(34, 1234.99, 3);
+        Item item2 = createItem(41, 5289.999, 2);
+
+
+        Cart cart = new Cart();
+        cart.addItem(item1);
+        cart.addItem(item2);
+
+        cart.updateQuantity(ProductId.newId(34), Quantity.of(1));
+
+        assertThat(cart.items())
+                .isNotEmpty().hasSize(2);
+        assertThat(List.copyOf(cart.items()))
+                .isEqualTo(List.of(item1, item2));
+
+        Money subTotal = Money.of(5289.999 * 2).add(Money.of(1234.99));
+        assertThat(cart.subTotal())
+                .usingComparator(Money.twoDecimalComparator())
+                .isEqualTo(subTotal);
+        assertThat(cart.tax())
+                .isEqualTo(Money.ZERO);
+        assertThat(cart.total())
+                .usingComparator(Money.twoDecimalComparator())
+                .isEqualTo(subTotal.add(Money.ZERO));
     }
 
     private Item createItem(int productIdValue, double priceValue, int qtyValue) {

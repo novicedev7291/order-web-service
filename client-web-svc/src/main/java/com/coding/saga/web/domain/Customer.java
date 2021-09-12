@@ -47,7 +47,7 @@ public class Customer {
             addresses.remove(address);
             return;
         }
-        throw new NotFoundException();
+        throw new AddressNotFoundException();
     }
 
     public Collection<Address> addresses() {

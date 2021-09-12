@@ -63,4 +63,15 @@ public class Cart {
     public Money total() {
         return subTotal().add(tax());
     }
+
+    public void updateQuantity(ProductId productId, Quantity quantity) {
+        Item existingItem = items.stream()
+                .filter(item -> item.productId().equals(productId))
+                .findAny()
+                .orElseThrow(ItemNotFoundException::new);
+
+        items.remove(existingItem);
+
+        items.add(new Item(productId, existingItem.price(), quantity));
+    }
 }
