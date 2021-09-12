@@ -1,9 +1,9 @@
 package com.coding.saga.web.domain;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import static java.util.Objects.requireNonNull;
 
@@ -11,7 +11,7 @@ public class Customer {
     private final CustomerId id;
     private Name name;
     private final String email;
-    private final List<Address> addresses = new ArrayList<>();
+    private final Set<Address> addresses = new HashSet<>();
     private final Cart cart = new Cart();
 
     public Customer(CustomerId id, Name name, String email) {
