@@ -19,11 +19,20 @@ class CartTest {
         Cart cart = new Cart();
         assertThat(cart.items())
                 .isEmpty();
+
+        assertThat(cart.subTotal())
+                .usingComparator(twoDecimalComparator())
+                .isEqualTo(Money.ZERO);
+        assertThat(cart.tax())
+                .isEqualTo(Money.ZERO);
+        assertThat(cart.total())
+                .usingComparator(twoDecimalComparator())
+                .isEqualTo(Money.ZERO);
     }
 
     @Test
     void addItemToCart() {
-        Item item = createItem(34, 1234.99, 3);
+        Item item = createItem(34, 4734.99, 7);
 
         Cart cart = new Cart();
         cart.addItem(item);
@@ -32,6 +41,16 @@ class CartTest {
                 .isNotEmpty().hasSize(1);
         assertThat(List.copyOf(cart.items()))
                 .isEqualTo(List.of(item));
+
+        Money subTotal = Money.of(4734.99 * 7);
+        assertThat(cart.subTotal())
+                .usingComparator(twoDecimalComparator())
+                .isEqualTo(subTotal);
+        assertThat(cart.tax())
+                .isEqualTo(Money.ZERO);
+        assertThat(cart.total())
+                .usingComparator(twoDecimalComparator())
+                .isEqualTo(subTotal.add(Money.ZERO));
     }
 
     @Test
@@ -47,6 +66,15 @@ class CartTest {
         assertThat(cart.items())
                 .extracting("quantity")
                 .isEqualTo(List.of(Quantity.of(6)));
+
+        Money subTotal = Money.of(1234.99 * 6);
+        assertThat(cart.subTotal())
+                .usingComparator(twoDecimalComparator())
+                .isEqualTo(subTotal);
+        assertThat(cart.tax())
+                .isEqualTo(Money.ZERO);
+        assertThat(cart.total())
+                .isEqualTo(subTotal.add(Money.ZERO));
     }
 
     @Test
@@ -66,22 +94,15 @@ class CartTest {
         assertThat(List.copyOf(cart.items()))
                 .isEqualTo(List.of(item2));
 
-    }
-
-    @Test
-    void addingItemShouldUpdateTheTotalOfCart() {
-        Item item1 = createItem(34, 1234.99, 3);
-        Item item2 = createItem(41, 5289.999, 2);
-
-        Cart cart = new Cart();
-        cart.addItem(item1);
-        cart.addItem(item2);
-
+        Money subTotal = Money.of(5289.999 * 2);
         assertThat(cart.subTotal())
                 .usingComparator(twoDecimalComparator())
-                .isEqualTo(Money.of(1234.99 * 3).add(Money.of(5289.9999 * 2)));
+                .isEqualTo(subTotal);
         assertThat(cart.tax())
                 .isEqualTo(Money.ZERO);
+        assertThat(cart.total())
+                .usingComparator(twoDecimalComparator())
+                .isEqualTo(subTotal.add(Money.ZERO));
     }
 
     private Comparator<Money> twoDecimalComparator() {

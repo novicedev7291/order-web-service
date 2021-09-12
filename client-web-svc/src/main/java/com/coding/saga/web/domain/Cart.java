@@ -20,8 +20,8 @@ public class Cart {
 
     public void addItem(Item item) {
         Optional<Item> possibleDuplicate = items.stream()
-                                  .filter(existing -> existing.equals(item))
-                                  .findAny();
+                                                .filter(existing -> existing.equals(item))
+                                                .findAny();
         possibleDuplicate.ifPresentOrElse(existing -> merge(item, existing), () -> items.add(item));
     }
 
@@ -44,8 +44,8 @@ public class Cart {
 
     public Money subTotal() {
         List<Money> lineTotalAmounts = items.stream()
-                                  .map(this::totalLineAmount)
-                                  .toList();
+                                            .map(this::totalLineAmount)
+                                            .toList();
         return lineTotalAmounts
                 .stream()
                 .reduce(Money.ZERO, Money::add);
@@ -58,5 +58,9 @@ public class Cart {
 
     public Money tax() {
         return Money.ZERO;
+    }
+
+    public Money total() {
+        return subTotal().add(tax());
     }
 }
