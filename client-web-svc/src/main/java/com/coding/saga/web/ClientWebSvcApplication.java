@@ -9,5 +9,4 @@ public class ClientWebSvcApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ClientWebSvcApplication.class, args);
 	}
-
 }

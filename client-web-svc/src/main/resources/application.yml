@@ -6,6 +6,10 @@ spring:
 logging:
   level:
     org.springframework.kafka.config: trace
+ecommerce:
+  include:
+    kafka: true
+
 ---
 spring:
   config.activate.on-profile: local
@@ -41,3 +45,6 @@ spring:
   flyway:
     locations:
       - classpath:db/h2/migrations
+ecommerce:
+  include:
+    kafka: false

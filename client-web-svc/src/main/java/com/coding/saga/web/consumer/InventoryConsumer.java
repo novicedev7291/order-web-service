@@ -2,6 +2,7 @@ package com.coding.saga.web.consumer;
 
 import com.coding.saga.domain.model.InventoryItem;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 /**
  * @author <a href="kuldeepyadav7291@gmail.com">Kuldeep</a>
  */
+@ConditionalOnProperty(name = "ecommerce.include.kafka", havingValue = "true")
 @Service
 @Slf4j
 public class InventoryConsumer {
