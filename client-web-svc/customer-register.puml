@@ -1,0 +1,36 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+start
+:Customer presses the Sign up using google button;
+
+if (google session finds the user) then (yes)
+    :Google asks user to grant required permissions to app;
+else (no)
+    :Google ask for user credentials to login;
+endif
+
+fork
+group Registration
+if (authentication successful) then (yes)
+    :Google redirect to app url (provided in config) with token;
+else (no)
+    :google will not allow user to proceed;
+    :User will be redirected to login page;
+    stop
+endif
+
+:App identifies the token from google;
+:App identifies (using details from token);
+
+if (customer not found) then (yes)
+    :Create a customer in app;
+endif
+end group
+
+:Redirect to customer profile page;
+stop
+
+fork again
+:User will be redirected to login page;
+stop
+@enduml
