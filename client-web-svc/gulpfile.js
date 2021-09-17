@@ -2,10 +2,21 @@ const gulp = require("gulp");
 const watch = require("gulp-watch");
 const browserSync = require("browser-sync").create();
 
+const babel = require("gulp-babel");
+
+const postcss = require("gulp-postcss");
+
 // gulp tasks
 gulp.task("copy-html", () => gulp.src("src/main/resources/**/*.html").pipe(gulp.dest("target/classes")));
-gulp.task("copy-css", () => gulp.src("src/main/resources/**/*.css").pipe(gulp.dest("target/classes")));
-gulp.task("copy-js", () => gulp.src("src/main/resources/**/*.js").pipe(gulp.dest("target/classes")));
+gulp.task("copy-css", () => gulp.src("src/main/resources/**/*.css")
+                                    .pipe(postcss([
+                                        require("tailwindcss"),
+                                        require("autoprefixer"),
+                                    ]))
+                                    .pipe(gulp.dest("target/classes")));
+gulp.task("copy-js", () => gulp.src("src/main/resources/**/*.js")
+                                    .pipe(babel())
+                                    .pipe(gulp.dest("target/classes")));
 
 // reload function
 function reload(done) {
