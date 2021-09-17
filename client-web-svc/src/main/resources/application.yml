@@ -3,6 +3,13 @@ server.port: 8182
 spring:
   profiles.active: ${SPRING_PROFILES_ACTIVE:local}
   application.name: web
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            clientId: ${google.oauth2.clientId}
+            clientSecret: ${google.oauth2.clientSecret}
 logging:
   level:
     org.springframework.kafka.config: trace
