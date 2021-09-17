@@ -6,6 +6,8 @@ spring:
 logging:
   level:
     org.springframework.kafka.config: trace
+thymeleaf:
+  cache: false
 ecommerce:
   include:
     kafka: true
