@@ -1,19 +1,9 @@
 package com.coding.saga.web.config;
 
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMapper;
-import org.springframework.security.web.access.AccessDeniedHandler;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.Collection;
 
 /**
  * @author <a href="kuldeepyadav7291@gmail.com">Kuldeep</a>
@@ -31,14 +21,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .mvcMatchers("/**")
                     .authenticated()
                 .and()
-                .exceptionHandling()
-                    .accessDeniedHandler(new AccessDeniedHandler() {
-                        @Override
-                        public void handle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AccessDeniedException e) throws IOException, ServletException {
-
-                        }
-                    })
-                .and()
                 .logout()
                     .logoutSuccessUrl("/")
                         .permitAll()
@@ -46,12 +28,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .invalidateHttpSession(true)
                 .and()
                 .oauth2Login()
-                    .userInfoEndpoint()
-                        .userAuthoritiesMapper(new GrantedAuthoritiesMapper() {
-                            @Override
-                            public Collection<? extends GrantedAuthority> mapAuthorities(Collection<? extends GrantedAuthority> collection) {
-                                return null;
-                            }
-                        });
+                    .successHandler(new GoogleAuthenticationSuccessHandler());
     }
 }

@@ -10,6 +10,7 @@ spring:
           google:
             clientId: ${google.oauth2.clientId}
             clientSecret: ${google.oauth2.clientSecret}
+            scope: openid,email,profile
 logging:
   level:
     org.springframework.kafka.config: trace
