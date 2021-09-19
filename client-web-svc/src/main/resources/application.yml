@@ -8,8 +8,8 @@ spring:
       client:
         registration:
           google:
-            clientId: 162977727921-5qgs0pa3jc023l3mmd5peue2adskdmrd.apps.googleusercontent.com
-            clientSecret: Wn88nVnmLuN4oxJZC1Rbh50w
+            clientId: ${google.oauth2.clientId}
+            clientSecret: ${google.oauth2.clientSecret}
             scope: openid,email,profile
 logging:
   level:
