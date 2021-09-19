@@ -68,9 +68,18 @@ public class Customer {
 
     @Override
     public int hashCode() {
-        int result = id.hashCode();
+        int result = id == null ? 11 : id.hashCode();
         result = 31 * result + email.hashCode();
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "id=" + id +
+                ", name=" + name +
+                ", email='" + email + '\'' +
+                '}';
     }
 
     public Cart cart() {

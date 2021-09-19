@@ -4,13 +4,18 @@ import com.coding.saga.web.domain.Customer;
 import com.coding.saga.web.domain.CustomerId;
 import com.coding.saga.web.domain.Name;
 
+import java.util.Objects;
+
 /**
  * @author <a href="kuldeepyadav7291@gmail.com">Kuldeep</a>
  */
 class CustomerMapper {
     static CustomerEntity toEntityFrom(Customer aCustomer) {
         CustomerEntity entity = new CustomerEntity();
-        entity.setId(aCustomer.id().value());
+
+        if(Objects.nonNull(aCustomer.id()))
+            entity.setId(aCustomer.id().value());
+
         entity.setFirstname(aCustomer.name().firstName());
         entity.setLastname(aCustomer.name().lastName());
         entity.setEmail(aCustomer.email());

@@ -23,17 +23,16 @@ class CustomerJpaRepositoryAdapterTest {
 
     @Test
     void shouldSaveCustomerModelToDB() {
-        CustomerId id = CustomerId.newId(34);
         Name name = new Name("Kuldeep", "Yadav");
         String email = "yk@pqrs.com";
 
-        Customer aCustomer = new Customer(id, name, email);
+        Customer aCustomer = new Customer(null, name, email);
 
         Customer savedCustomer = new CustomerJpaRepositoryAdapter(repository)
                 .save(aCustomer);
 
         assertThat(savedCustomer.id())
-                .isEqualTo(id);
+                .isNotNull();
         assertThat(savedCustomer.name())
                 .isEqualTo(name);
         assertThat(savedCustomer.email())
@@ -43,14 +42,13 @@ class CustomerJpaRepositoryAdapterTest {
     @Test
     void shouldLoadCustomerFromRepository() {
         CustomerEntity entity = new CustomerEntity();
-        entity.setId(478L);
         entity.setFirstname("Kuldeep");
         entity.setLastname("Yadav");
         entity.setEmail("yk@xyz.com");
 
-        repository.save(entity);
+        entity = repository.save(entity);
 
-        CustomerId customerId = CustomerId.newId(478);
+        CustomerId customerId = CustomerId.newId(entity.getId());
         Optional<Customer> possibleCustomer = new CustomerJpaRepositoryAdapter(repository)
                 .findById(customerId);
 
@@ -68,7 +66,6 @@ class CustomerJpaRepositoryAdapterTest {
     @Test
     void shouldGiveEmptyCustomerWhenNotFoundInDB() {
         CustomerEntity entity = new CustomerEntity();
-        entity.setId(478L);
         entity.setFirstname("Kuldeep");
         entity.setLastname("Yadav");
         entity.setEmail("yk@xyz.com");
@@ -85,7 +82,6 @@ class CustomerJpaRepositoryAdapterTest {
     @Test
     void shouldLoadCustomerWithGivenEmailId() {
         CustomerEntity entity = new CustomerEntity();
-        entity.setId(478L);
         entity.setFirstname("Kuldeep");
         entity.setLastname("Yadav");
         entity.setEmail("yk@xyz.com");
@@ -99,8 +95,6 @@ class CustomerJpaRepositoryAdapterTest {
                 .isPresent();
 
         Customer customer = possibleCustomer.get();
-        assertThat(customer.id())
-                .isEqualTo(CustomerId.newId(478));
 
         assertThat(customer.email())
                 .isEqualTo("yk@xyz.com");

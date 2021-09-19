@@ -65,4 +65,8 @@ public class CustomerService {
     public Optional<Customer> findByEmailId(String email) {
         return repository.findByEmailId(email);
     }
+
+    public void create(Customer aCustomer) {
+        repository.save(aCustomer);
+    }
 }

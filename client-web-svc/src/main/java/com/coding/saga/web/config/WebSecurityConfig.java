@@ -31,6 +31,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .invalidateHttpSession(true)
                 .and()
                 .oauth2Login()
-                    .defaultSuccessUrl("/register");
+                    .defaultSuccessUrl("/customerRegistration");
     }
 }
