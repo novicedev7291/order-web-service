@@ -82,4 +82,39 @@ class CustomerJpaRepositoryAdapterTest {
         assertThat(possibleCustomer).isNotPresent();
     }
 
+    @Test
+    void shouldLoadCustomerWithGivenEmailId() {
+        CustomerEntity entity = new CustomerEntity();
+        entity.setId(478L);
+        entity.setFirstname("Kuldeep");
+        entity.setLastname("Yadav");
+        entity.setEmail("yk@xyz.com");
+
+        repository.save(entity);
+
+        Optional<Customer> possibleCustomer = new CustomerJpaRepositoryAdapter(repository)
+                .findByEmailId("yk@xyz.com");
+
+        assertThat(possibleCustomer)
+                .isPresent();
+
+        Customer customer = possibleCustomer.get();
+        assertThat(customer.id())
+                .isEqualTo(CustomerId.newId(478));
+
+        assertThat(customer.email())
+                .isEqualTo("yk@xyz.com");
+
+    }
+
+    @Test
+    void shouldGiveEmptyCustomerWithGivenEmailId() {
+        Optional<Customer> possibleCustomer = new CustomerJpaRepositoryAdapter(repository)
+                .findByEmailId("yk@xyz.com");
+
+        assertThat(possibleCustomer)
+                .isNotPresent();
+
+    }
+
 }

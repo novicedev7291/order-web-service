@@ -1,5 +1,7 @@
 package com.coding.saga.web.domain;
 
+import java.util.Optional;
+
 class CustomerService {
     private final CustomerRepository repository;
 
@@ -58,5 +60,9 @@ class CustomerService {
         Customer customer = repository.findById(customerId)
                                       .orElseThrow(CustomerNotFoundException::new);
         customer.defineShipping(address);
+    }
+
+    public Optional<Customer> findByEmailId(String email) {
+        return repository.findByEmailId(email);
     }
 }

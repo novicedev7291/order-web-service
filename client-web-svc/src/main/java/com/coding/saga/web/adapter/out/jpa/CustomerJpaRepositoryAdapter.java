@@ -29,4 +29,10 @@ class CustomerJpaRepositoryAdapter implements CustomerRepository {
         Optional<CustomerEntity> optEntity = repository.findById(customerId.value());
         return optEntity.map(CustomerMapper::toModelFrom);
     }
+
+    @Override
+    public Optional<Customer> findByEmailId(String email) {
+        return repository.findByEmail(email)
+                .map(CustomerMapper::toModelFrom);
+    }
 }

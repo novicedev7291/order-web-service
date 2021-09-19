@@ -16,4 +16,12 @@ class InMemoryCustomerRepository implements CustomerRepository {
     public Optional<Customer> findById(CustomerId customerId) {
         return Optional.ofNullable(collections.get(customerId));
     }
+
+    @Override
+    public Optional<Customer> findByEmailId(String email) {
+        return collections.values()
+                .stream()
+                .filter(customer -> customer.email().equals(email))
+                .findAny();
+    }
 }
