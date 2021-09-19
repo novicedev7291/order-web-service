@@ -1,6 +1,7 @@
 package com.coding.saga.web.config;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -16,10 +17,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                    .mvcMatchers("/", "/error", "/login")
+                    .mvcMatchers("/", "/error", "/login", "/**/*.css", "/**/*.js")
                         .permitAll()
                     .mvcMatchers("/**")
-                    .authenticated()
+                        .authenticated()
+                    .mvcMatchers(HttpMethod.POST, "/logout")
+                        .authenticated()
                 .and()
                 .logout()
                     .logoutSuccessUrl("/")
@@ -28,6 +31,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .invalidateHttpSession(true)
                 .and()
                 .oauth2Login()
-                    .successHandler(new GoogleAuthenticationSuccessHandler());
+                    .defaultSuccessUrl("/register");
     }
 }

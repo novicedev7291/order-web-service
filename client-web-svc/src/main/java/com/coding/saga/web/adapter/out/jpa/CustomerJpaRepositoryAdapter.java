@@ -3,14 +3,14 @@ package com.coding.saga.web.adapter.out.jpa;
 import com.coding.saga.web.domain.Customer;
 import com.coding.saga.web.domain.CustomerId;
 import com.coding.saga.web.domain.CustomerRepository;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 /**
  * @author <a href="kuldeepyadav7291@gmail.com">Kuldeep</a>
  */
-@Service
+@Repository
 class CustomerJpaRepositoryAdapter implements CustomerRepository {
     private final CustomerJpaRepository repository;
 

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Registration|Shoppee</title>
@@ -15,7 +16,7 @@
             <input type="text" name="lastname" placeholder="Lastname" />
         </div>
         <div>
-            <input type="email" name="email" value="ky@abc.com" disabled />
+            <input type="email" th:field="*{email}" disabled />
         </div>
         <div>
             <button>Submit</button>

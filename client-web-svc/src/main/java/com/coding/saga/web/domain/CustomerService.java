@@ -2,7 +2,7 @@ package com.coding.saga.web.domain;
 
 import java.util.Optional;
 
-class CustomerService {
+public class CustomerService {
     private final CustomerRepository repository;
 
     public CustomerService(CustomerRepository repository) {
