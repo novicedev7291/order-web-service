@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
-class InMemoryCustomerRepository implements CustomerRepository {
+public class InMemoryCustomerRepository implements CustomerRepository {
     private Map<CustomerId, Customer> collections = new ConcurrentHashMap<>();
 
     @Override

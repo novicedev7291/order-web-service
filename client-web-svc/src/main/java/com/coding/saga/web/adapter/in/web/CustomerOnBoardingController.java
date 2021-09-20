@@ -19,11 +19,12 @@ import java.util.Optional;
  * @author <a href="kuldeepyadav7291@gmail.com">Kuldeep</a>
  */
 @Controller
+public
 class CustomerOnBoardingController {
     private static final Logger log = LoggerFactory.getLogger(CustomerOnBoardingController.class);
     private final CustomerService customerService;
 
-    CustomerOnBoardingController(CustomerService customerService) {
+    public CustomerOnBoardingController(CustomerService customerService) {
         this.customerService = customerService;
     }
 
@@ -32,34 +33,28 @@ class CustomerOnBoardingController {
         String email = oAuth2User.getAttribute("email");
         log.debug("user with email Id {}", email);
 
-        String name = oAuth2User.getAttribute("name");
-        log.debug("user with {} name", name);
 
         Optional<Customer> possibleCustomer = customerService.findByEmailId(email);
         if(possibleCustomer.isPresent()) {
             return "redirect:index";
         }
 
+        String name = oAuth2User.getAttribute("name");
+        log.debug("user with {} name", name);
+
         CustomerRegistrationForm registrationForm = new CustomerRegistrationForm(email);
         if(Objects.nonNull(name)) {
-            Name realName;
             int spaceIdx = name.indexOf(' ');
             if(spaceIdx == -1) {
                 log.debug("only single name found : {}", name);
                 registrationForm.setFirstname(name);
-                realName = new Name(name, "");
             }else {
                 String firstname = name.substring(0, spaceIdx);
                 String lastname = name.substring(spaceIdx + 1);
 
                 registrationForm.setFirstname(firstname);
                 registrationForm.setLastname(lastname);
-
-                realName = new Name(firstname, lastname);
             }
-
-            Customer newCustomer = new Customer(null, realName, email);
-            log.debug("new customer details : {}", newCustomer);
         }
 
         model.addAttribute("registration", registrationForm);
