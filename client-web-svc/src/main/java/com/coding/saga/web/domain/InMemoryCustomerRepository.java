@@ -1,15 +1,27 @@
 package com.coding.saga.web.domain;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicLong;
+
+import static java.util.Objects.requireNonNull;
 
 public class InMemoryCustomerRepository implements CustomerRepository {
     private Map<CustomerId, Customer> collections = new ConcurrentHashMap<>();
+    private final AtomicLong identity = new AtomicLong(1);
 
     @Override
     public Customer save(Customer customer) {
-        return collections.put(customer.id(), customer);
+        requireNonNull(customer);
+
+        CustomerId id = customer.id();
+        if (Objects.isNull(id)) {
+            id = CustomerId.newId(identity.getAndIncrement());
+        }
+
+        return collections.put(id, new Customer(id, customer.name(), customer.email()));
     }
 
     @Override

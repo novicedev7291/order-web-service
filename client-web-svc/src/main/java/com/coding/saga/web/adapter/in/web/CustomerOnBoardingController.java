@@ -36,6 +36,7 @@ class CustomerOnBoardingController {
 
         Optional<Customer> possibleCustomer = customerService.findByEmailId(email);
         if(possibleCustomer.isPresent()) {
+            model.addAttribute("isAuthenticated", true);
             return "redirect:index";
         }
 
@@ -62,7 +63,7 @@ class CustomerOnBoardingController {
     }
 
     @PostMapping(value = "/register")
-    public String registerCustomer(CustomerRegistrationForm customerRegistrationForm) {
+    public String registerCustomer(Model model, CustomerRegistrationForm customerRegistrationForm) {
         Customer aCustomer = new Customer(
                 null,
                 new Name(
@@ -73,6 +74,7 @@ class CustomerOnBoardingController {
         );
         customerService.create(aCustomer);
 
+        model.addAttribute("isAuthenticated", true);
         return "redirect:/";
     }
 }

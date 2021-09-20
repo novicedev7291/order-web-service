@@ -1,6 +1,7 @@
 package com.coding.saga.web.adapter.in;
 
 import com.coding.saga.web.adapter.in.web.CustomerOnBoardingController;
+import com.coding.saga.web.adapter.in.web.CustomerRegistrationForm;
 import com.coding.saga.web.domain.Customer;
 import com.coding.saga.web.domain.CustomerId;
 import com.coding.saga.web.domain.CustomerService;
@@ -12,15 +13,12 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.ui.ConcurrentModel;
 import org.springframework.ui.Model;
 
-import java.util.Map;
-
-import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * @author <a href="kuldeepyadav7291@gmail.com">Kuldeep</a>
  */
-class CustomerControllerTest {
+class CustomerOnBoardingControllerTest {
 
     @Test
     void shouldLoadCustomerRegistrationFormWhenEmailNotFound() {
@@ -29,19 +27,14 @@ class CustomerControllerTest {
 
 
         Model model = new ConcurrentModel();
-        DefaultOAuth2User oAuth2User = new DefaultOAuth2User(emptyList(),
-                Map.of(
-                        "email", "ky@abc.com",
-                        "name", "Kuldeep Yadav"
-                ),
-                "name"
-        );
+        String email = "ky@abc.com";
+        DefaultOAuth2User oAuth2User = OAuth2UserFactory.createOAuth2User(email, "Kuldeep Yadav");
 
         CustomerOnBoardingController controller = new CustomerOnBoardingController(service);
         controller.completionView(model, oAuth2User);
 
         assertThat(model.getAttribute("registration"))
-                .hasFieldOrPropertyWithValue("email", "ky@abc.com");
+                .hasFieldOrPropertyWithValue("email", email);
 
     }
 
@@ -59,17 +52,41 @@ class CustomerControllerTest {
         CustomerService service = new CustomerService(repository);
 
         Model model = new ConcurrentModel();
-        OAuth2User oAuth2User = new DefaultOAuth2User(
-                emptyList(),
-                Map.of("email", email, "name", "Kuldeep"),
-                "name"
-        );
+        OAuth2User oAuth2User = OAuth2UserFactory.createOAuth2User(email, "Kuldeep");
 
         CustomerOnBoardingController controller = new CustomerOnBoardingController(service);
 
         controller.completionView(model, oAuth2User);
 
-        assertThat(model)
-                .hasAllNullFieldsOrProperties();
+
+        assertThat(model.getAttribute("isAuthenticated"))
+                .isInstanceOf(Boolean.class);
+
+        if(model.getAttribute("isAuthenticated") instanceof Boolean value) {
+            assertThat(value).isTrue();
+        }
+    }
+
+    @Test
+    void shouldHaveCustomerPropertyAfterSuccessfulRegistration() {
+        InMemoryCustomerRepository repository = new InMemoryCustomerRepository();
+        CustomerService service = new CustomerService(repository);
+
+        CustomerRegistrationForm form = new CustomerRegistrationForm();
+        form.setFirstname("Kuldeep");
+        form.setLastname("Yadav");
+        form.setEmail("ky@xyz.com");
+
+        Model model = new ConcurrentModel();
+
+        CustomerOnBoardingController controller = new CustomerOnBoardingController(service);
+        controller.registerCustomer(model, form);
+
+        Object isAuthenticated = model.getAttribute("isAuthenticated");
+        assertThat(isAuthenticated)
+                .isInstanceOf(Boolean.class);
+        if(isAuthenticated instanceof Boolean value) {
+            assertThat(value).isTrue();
+        }
     }
 }
