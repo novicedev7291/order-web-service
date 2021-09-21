@@ -12,6 +12,12 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+    private final GoogleAuthenticationHandler googleAuthenticationHandler;
+
+    public WebSecurityConfig(GoogleAuthenticationHandler authenticationHandler) {
+        super();
+        this.googleAuthenticationHandler = authenticationHandler;
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -31,6 +37,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .invalidateHttpSession(true)
                 .and()
                 .oauth2Login()
-                    .defaultSuccessUrl("/customerRegistration");
+                    .successHandler(googleAuthenticationHandler);
+//                    .defaultSuccessUrl("/customerRegistration");
     }
 }
