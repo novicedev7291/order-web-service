@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.Objects;
-import java.util.Optional;
 
 /**
  * @author <a href="kuldeepyadav7291@gmail.com">Kuldeep</a>
@@ -28,20 +27,13 @@ class CustomerOnBoardingController {
         this.customerService = customerService;
     }
 
-    @GetMapping("/customerRegistration")
+    @GetMapping("/registration")
     public String completionView(Model model, @AuthenticationPrincipal OAuth2User oAuth2User) {
         String email = oAuth2User.getAttribute("email");
-        log.debug("user with email Id {}", email);
-
-
-        Optional<Customer> possibleCustomer = customerService.findByEmailId(email);
-        if(possibleCustomer.isPresent()) {
-            model.addAttribute("isAuthenticated", true);
-            return "redirect:index";
-        }
 
         String name = oAuth2User.getAttribute("name");
-        log.debug("user with {} name", name);
+
+        log.debug("Found {} authenticated user with {} email", name, email);
 
         CustomerRegistrationForm registrationForm = new CustomerRegistrationForm(email);
         if(Objects.nonNull(name)) {

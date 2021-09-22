@@ -1,4 +1,4 @@
-package com.coding.saga.web.adapter.in;
+package com.coding.saga.web.config;
 
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 
@@ -9,7 +9,7 @@ import static java.util.Collections.emptyList;
 /**
  * @author <a href="kuldeepyadav7291@gmail.com">Kuldeep</a>
  */
-class OAuth2UserFactory {
+public class OAuth2UserFactory {
     private OAuth2UserFactory() {
         throw new UnsupportedOperationException();
     }
